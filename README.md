@@ -1,2 +1,4 @@
-# container-articles
-Articles, sample code on aspects of container usage
+# Container Articles
+
+Articles for blogs and other locations on general container related topics, 
+including sample code where applicable.
