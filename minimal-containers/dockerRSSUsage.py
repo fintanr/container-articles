@@ -31,5 +31,7 @@ for container in cli.containers():
     cStats[container['Id']]['Image'] = container['Image']
 
 
+print("RSS\tCache\tImage Name\n");
+
 for key,value in cStats.items():
-    print ( "%s : %s " ) % ( cStats[key]['RSS_MB'], cStats[key]['Image'] )
+    print ( "%s\t%s\t%s " ) % ( cStats[key]['RSS_MB'], cStats[key]['Cache_MB'], cStats[key]['Image'] )
