@@ -87,7 +87,7 @@ As you can see there is an 11x size difference.
 
 ## Container Memory Usage
 
-The other interesting aspect to take note of is the memory useage in the form of RSS and Cache. 
+The other interesting aspect to take note of is the memory usage in the form of RSS and Cache. 
 We provide a small python script to look at some basic memory stats.
 
 ```bash
