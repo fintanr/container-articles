@@ -1,0 +1,6 @@
+FROM gliderlabs/alpine:edge
+COPY repositories /etc/apk/repositories
+RUN apk --update add php
+RUN 	mkdir /demo
+ADD	./demo-src/index.php /demo/index.php
+ENTRYPOINT ["php", "-S", "0.0.0.0:8081", "-t", "/demo"]

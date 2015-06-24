@@ -18,27 +18,90 @@ The question, which arises, is just how much of the operating system infrastruct
 
 Alpine Linux is a lightweight, secure by default, Linux distribution with a simple, and up to date set of packages for use. It is intended for general-purpose use, and more importantly has a design principle of trying to stay out of your way.
 
-Gliderlabs have developed an “Alpine Linux Docker Image”, for general use. Further details are available on github. As Gliderlabs themselves say, their image “will help you win at minimalism” and it is also an official docker image. (https://docs.docker.com/docker-hub/official_repos/)
+Gliderlabs have developed an ["Alpine Linux Docker Image"](https://github.com/gliderlabs/docker-alpine), for general use. Further details are available on github. As Gliderlabs themselves say, their image “will help you win at minimalism” and it is also an [official docker image](https://docs.docker.com/docker-hub/official_repos/).
 
 We will use of this image in our examples over the rest of this post.
 
 ## Size Matters
 
-The size of your containers may not seem that important, but it does matter. As the team at Gliderlabs show with the numbers below the difference between a base image of Ubuntu and Alpine Linux is huge.
+The size of your containers may not seem that important, but it does matter once you move into production. As the team at Gliderlabs show with the numbers below the difference between a base image of Ubuntu and Alpine Linux is huge.
 
-<< details from  gliderlabs github page >>
+```bash
+REPOSITORY          TAG           IMAGE ID          VIRTUAL SIZE
+gliderlabs/alpine   latest        157314031a17      5.03 MB
+debian              latest        4d6ce913b130      84.98 MB
+ubuntu              latest        b39b81afc8ca      188.3 MB
+centos              latest        8efe422e6104      210 MB
+```
 
-Now for your initial experiments large base images are fine, but as the number of containers you are using grows size does matter.  As a general case think of the distribution of containers in a relatively complex environment, say across 30 nodes, each running 30 instances of a service in two data centers. 
+Now for your initial experiments large base images are fine, but as the number of containers you are using grows size does matter. As a general case think of the distribution of containers in a relatively complex environment, say across 30 nodes, each running 30 instances of a service in two data centers. The numbers add up quickly, and once you are in the realm of multiple deployments
+per day so will the bandwidth charges. 
 
+## A Simple Image
 
+Lets create two very simple Docker containers, one based on Alpine Linux, and one based on Ubuntu. Both images provide the same, 
+very dumb, php based app which says hello. If you want try this out for yourself, you can download
+the source code from [github](http://github.com/fintanr/container-articles/minimal-containers). 
 
-All the code from this example is available at
+Our Dockerfile for the Alpine Linux image is
 
+```
+FROM 	gliderlabs/alpine:edge
+COPY 	repositories /etc/apk/repositories
+RUN 	apk --update add php
+RUN 	mkdir /demo
+ADD	./demo-src/index.php /demo/index.php
+ENTRYPOINT 	["php", "-S", "0.0.0.0:80", "-t", "/demo"]
+```
 
+while for Ubuntu it is 
 
+```
+FROM    ubuntu
+MAINTAINER      fintan@weave.works
+RUN     apt-get -y update
+RUN     apt-get -y install php5-cli
+RUN 	mkdir /demo
+ADD	./demo-src/index.php /demo/index.php
+ENTRYPOINT ["php", "-S", "0.0.0.0:80", "-t", "/demo"]
+```
 
+Now when we build these images we see the following image sizes
 
-## From Scratch
+```bash
+docker build -t fintanr/ubuntu-size-php -f Dockerfile-ubuntu .
+docker build -t fintanr/alpine-size-php -f Dockerfile-alpine .
+```
 
+## Container Image Size
 
+After our build we get the following images which accomplish the same basic task
 
+```
+vagrant@weave-gs-01:~$ docker images | grep fintanr
+fintanr/ubuntu-size-php   latest              439cabc52f80        About a minute ago   225.4 MB
+fintanr/alpine-size-php   latest              7df8ccc6a40a        About a minute ago   20.14 MB
+```
+
+As you can see there is an 11x size difference.
+
+## Container Memory Usage
+
+The other interesting aspect to take note of is the memory useage in the form of RSS and Cache. 
+We provide a small python script to look at some basic memory stats.
+
+```bash
+vagrant@weave-gs-01:~$ ./dockerRSSUsage.py | grep -v weave
+RSS	Cache	Image Name
+
+2.36Mb	0.68Mb	fintanr/alpine-size-php 
+3.25Mb	5.27Mb	fintanr/ubuntu-size-php 
+```
+
+Again the Alpine image is smaller.
+
+## Conclusion
+
+As we move further into the era of containers how we build our container images will become ever more important.
+If you plan on using containers in your environment it is worth considering Alpine Linux or similar as a base to build
+upon, or investigate "from scratch" docker images.

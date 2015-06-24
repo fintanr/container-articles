@@ -1,0 +1,7 @@
+FROM    ubuntu
+MAINTAINER      fintan@weave.works
+RUN     apt-get -y update
+RUN     apt-get -y install php5-cli
+RUN 	mkdir /demo
+ADD	./demo-src/index.php /demo/index.php
+ENTRYPOINT ["php", "-S", "0.0.0.0:80", "-t", "/demo"]
