@@ -41,7 +41,7 @@ per day so will the bandwidth charges.
 
 Lets create two very simple Docker containers, one based on Alpine Linux, and one based on Ubuntu. Both images provide the same, 
 very dumb, php based app which says hello. If you want try this out for yourself, you can download
-the source code from [github](http://github.com/fintanr/container-articles/minimal-containers). 
+the source code from [github](https://github.com/fintanr/container-articles). 
 
 Our Dockerfile for the Alpine Linux image is
 
