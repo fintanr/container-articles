@@ -1,6 +1,6 @@
 ## Introduction
 
-At Weave, we, as you would expect, distribute all of our software as containers, and make heavy use of both Alpine Linux and the ability to build a container “from scratch”.
+At [Weave](http://weave.works/), we, as you would expect, distribute all of our software as containers, and make heavy use of both Alpine Linux and the ability to build a container “from scratch”.
 
 When you first experiment with Docker many of the initial examples you come across are based on Ubuntu, Debian and other full Linux distributions. Indeed we provide similar examples in our own getting started guides. 
 
@@ -12,7 +12,7 @@ Firstly let us step back a little bit from distributions and consider the purpos
 
 However, an operating system does provide very useful primitives, particularly in terms of packaging and distributing software. Given this it make sense to use operating systems as the basis for our containers in most cases and for most users.
 
-The question, which arises, is just how much of the operating system infrastructure and internal plumbing you really need to allow your application to run. The answer, generally, is not very much and reducing the overall footprint of an operating system is a good security practice.  Given this, starting from a very small footprint and adding in the components you need is preferable to removing components from a larger distribution.
+The question which arises, is just how much of the operating system infrastructure and internal plumbing you really need to allow your application to run. The answer, generally, is not very much and reducing the overall footprint of an operating system is a good security practice.  Given this, starting from a very small footprint and adding in the components you need is preferable to removing components from a larger distribution.
 
 ## Introducing Alpine Linux
 
