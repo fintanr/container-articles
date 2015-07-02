@@ -47,6 +47,7 @@ Our Dockerfile for the Alpine Linux image is
 
 ```
 FROM 	alpine:latest
+MAINTAINER	fintan@weave.works
 COPY 	repositories /etc/apk/repositories
 RUN 	apk --update add php
 RUN 	mkdir /demo
