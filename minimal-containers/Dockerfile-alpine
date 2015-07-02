@@ -1,4 +1,4 @@
-FROM gliderlabs/alpine:edge
+FROM alpine:latest
 COPY repositories /etc/apk/repositories
 RUN apk --update add php
 RUN 	mkdir /demo

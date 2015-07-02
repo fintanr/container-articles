@@ -46,7 +46,7 @@ the source code from [github](https://github.com/fintanr/container-articles).
 Our Dockerfile for the Alpine Linux image is
 
 ```
-FROM 	gliderlabs/alpine:edge
+FROM 	alpine:latest
 COPY 	repositories /etc/apk/repositories
 RUN 	apk --update add php
 RUN 	mkdir /demo
